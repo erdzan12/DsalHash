@@ -1,82 +1,64 @@
-def hash():
-	i=0;
-	a1 = [];
-	a2 = [];
-	for a in range (1, 5):
-		for b in range (0, 5):
-			for x in range (0, 5):
-				for y in range (0, 5):
-					hx = (((a*x+b)%5)%4)
-					hy = (((a*y+b)%5)%4)
-					a1.append(hx);
-					a2.append(hy);
-					i += 1;
-	low = 0;
-	up = 25;
-	cl = [];
-	clf = [];
-	wr = [];
-	for g in range(0, 500):
-		cl.append(0);
-	for w in range (0, 20):
-		for v in range (low, up):
-			if a1[v]==a2[v]:
-				cl[v]=1;
-		low = up;
-		up += 25;
-	l=0;
-	u=5;
-	z=0;
-	for ff in range (0, 100):
-		for fy in range (l, u):
-			z += cl[fy];
-		clf.append(z);
-		z=0;
-	for f in range (0, len(clf)):
-		print clf[f];
-		print "Wahrsch.";
-		print(float(float(clf[f])/float(5)))
+#!/usr/bin/env python
+# coding: utf8
+from fractions import Fraction
+def hash(xb,xu,yb,yu,ab,au,bb,bu,m1,m2):
 
-	print len(clf)
-def hash2():
-        i=0;
-        a1 = [];
-        a2 = [];
-        for a in range (1, 5):
-                for b in range (0, 5):
-                        for x in range (0, 6):
-                                for y in range (0, 6):
-                                        hx = (((a*x+b)%6)%4)
-                                        hy = (((a*y+b)%6)%4)
-                                        a1.append(hx);
-                                        a2.append(hy);
-                                        i += 1;
-        low = 0;
-        up = 36;
-        cl = [];
-        clf = [];
-        wr = [];
-        for g in range(0, 720):
-                cl.append(0);
-        for w in range (0, 20):
-                for v in range (low, up):
-                        if a1[v]==a2[v]:
-                                cl[v]=1;
-                low = up;
-                up += 36;
-        l=0;
-        u=6;
-        z=0;
-        for ff in range (0, 120):
-                for fy in range (l, u):
-                        z += cl[fy];
-                clf.append(z);
-                z=0;
-        for f in range (0, len(clf)):
-                print (clf[f]);
-                print ("Wahrsch.");
-                print(float(float(clf[f])/float(5)))
+a1 = [];
+a2 = [];
+for x in range (xb, xu):
+    for y in range (yb, yu):
+        for a in range (ab, au):
+            for b in range (bb, bu):
+                hx = (((a*x+b)%m1)%m2)
+                hy = (((a*y+b)%m1)%m2)
+                a1.append(hx);
+                a2.append(hy);
+low = 0;
+up = (au-ab)*(bu-bb);
+cl = [];
+clf = [];
+wr = [];
+for g in range(0, (xu-xb)*(yu-yb)*(au-ab)*(bu-bb)):
+    cl.append(0);
+for w in range (0, (xu-xb)*(yu-yb)):
+    for v in range (low, up):
+        if a1[v]==a2[v]:
+            cl[v]=1;
+    low = up;
+    up += (au-ab)*(bu-bb);
+l=0;
+u=(au-ab)*(bu-bb);
+z=0;
+for ff in range (0, (xu-xb)*(yu-yb)):
+    for fy in range (l, u):
+        z = z+cl[fy];
+    clf.append(z);
+    z=0;
+    l=u;
+    u +=(au-ab)*(bu-bb);
+i=0
+while i < (xu-xb)*(yu-yb):
+    clf[i]=0
+    i += (yu+1)
 
-        print (len(clf))
+#  for f in range (0, len(clf)):
+#     print (clf[f]);
+    #print ("Wahrsch.");
 
-hash()
+#print (len(clf))
+f=0
+for x in range (xb, xu):
+    print (" ")
+    for y in range (yb, yu):
+        if(x!=y):
+            print ("Kollisionswahrsch. für |h(%d) = h(%d) ist: %f|"  % (x, y, (float(float(clf[f])/float((au-ab)*(bu-bb))))) )
+            f += 1;
+        else:
+            f += 1;
+print ("_____________________Erste_______________________")
+hash(0,5,0,5,1,5,0,5,5,4)
+print ("_____________________Erste_______________________")
+print ("_____________________Zweite______________________")
+
+hash(0,6,0,6,1,5,0,5,6,4)
+print ("_____________________Zweite______________________")
